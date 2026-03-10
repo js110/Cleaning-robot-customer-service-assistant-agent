@@ -1,84 +1,100 @@
-# Cleaning Robot Customer Service Assistant Agent
+# 清洁机器人智能客服助手
 
-An intelligent customer service assistant for cleaning robots built with Streamlit, LangChain, RAG, and DashScope models.
+这是一个面向清洁机器人场景的智能客服助手项目，基于 `Streamlit`、`LangChain`、RAG 和 DashScope 模型构建，适合演示智能问答、知识库检索、外部工具调用与报告生成等能力。
 
-## Features
+## 项目特点
 
-- Conversational customer service interface based on `Streamlit`
-- RAG knowledge retrieval over product FAQs, troubleshooting guides, and buying advice
-- Tool-enabled agent workflow for weather lookup, user location, and external usage data
-- Dynamic prompt switching for report-generation scenarios
-- Local Chroma vector store for knowledge indexing
+- 基于 `Streamlit` 的对话式客服界面
+- 支持产品问答、故障排查、维护保养、选购建议等知识检索
+- 通过 Agent 工具调用天气查询、用户定位、用户使用数据读取等能力
+- 支持根据场景动态切换提示词
+- 使用本地 `Chroma` 向量库进行知识索引与召回
 
-## Project Structure
+## 目录结构
 
 ```text
 .
-+-- app.py                  # Streamlit entry point
-+-- react_agent.py          # Agent assembly and streaming execution
-+-- model/                  # Model factory and API key resolution
-+-- rag/                    # Retrieval and vector store logic
-+-- tools/                  # Agent tools and middleware
-+-- utils/                  # Config, logging, file loading, weather helpers
-+-- config/                 # YAML configuration
-+-- prompts/                # Prompt templates
-+-- data/                   # Knowledge base files and external CSV data
++-- app.py                  # Streamlit 应用入口
++-- react_agent.py          # Agent 组装与流式输出
++-- model/                  # 模型工厂与 API Key 读取
++-- rag/                    # 检索增强生成与向量库逻辑
++-- tools/                  # 工具定义与中间件
++-- utils/                  # 配置、日志、文件处理、天气服务等通用模块
++-- config/                 # YAML 配置文件
++-- prompts/                # 提示词模板
++-- data/                   # 知识库文档与外部业务数据
 ```
 
-## Requirements
+## 运行环境
 
-- Python 3.11 or newer recommended
-- A valid DashScope API key
+- 推荐 Python 3.11 及以上版本
+- 需要可用的 DashScope API Key
 
-## Quick Start
+## 快速开始
 
-1. Create and activate a virtual environment.
-2. Install dependencies:
+1. 创建并激活虚拟环境
+2. 安装依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Configure the API key:
+3. 配置模型密钥
 
 ```bash
 copy .env.example .env
 ```
 
-Set `DASHSCOPE_API_KEY` in your shell or `.env` loading workflow. The repository does not store a real key.
+然后在终端环境变量或你自己的 `.env` 加载流程中设置：
 
-4. Build or refresh the vector database if needed:
+```bash
+DASHSCOPE_API_KEY=your_dashscope_api_key
+```
+
+仓库中不会保存真实密钥。
+
+4. 初始化或刷新向量库
 
 ```bash
 python rag/vector_store.py
 ```
 
-5. Start the app:
+5. 启动应用
 
 ```bash
 streamlit run app.py
 ```
 
-## Configuration
+## 配置说明
 
-- `config/rag.yml`: model names and DashScope key fallback
-- `config/chroma.yml`: Chroma persistence path, retrieval count, chunking
-- `config/agent.yml`: external CSV data path
-- `config/prompts.yml`: prompt file locations
+- `config/rag.yml`：大模型与向量模型名称配置
+- `config/chroma.yml`：向量库目录、召回条数、文本切分参数
+- `config/agent.yml`：外部 CSV 数据路径
+- `config/prompts.yml`：提示词文件路径映射
 
-## Security Notes
+## 数据来源
 
-- Do not commit `.env`, logs, or local vector databases
-- Prefer `DASHSCOPE_API_KEY` from the environment
-- Replace any local test keys before sharing the repository
+当前知识数据主要来自 `data/` 目录，包括：
 
-## Current Knowledge Sources
+- 清洁机器人常见问题文档
+- 故障排除文档
+- 维护保养文档
+- 选购指南文档
+- `data/external/records.csv` 中的用户外部使用记录
 
-- Product FAQ text files under `data/`
-- Troubleshooting and maintenance documents
-- PDF and TXT knowledge documents supported by the loader
-- External usage records in `data/external/records.csv`
+## 安全说明
+
+- 不要提交 `.env`、日志文件、本地向量库和缓存文件
+- 优先通过环境变量 `DASHSCOPE_API_KEY` 提供密钥
+- 对外分享仓库前，确认测试代码和配置中没有残留真实密钥
+
+## 后续可扩展方向
+
+- 接入真实订单、售后、设备状态等业务系统
+- 增加多轮会话记忆与用户画像能力
+- 增加知识库增量更新与后台管理能力
+- 增加部署说明，例如云服务器或容器化部署
 
 ## License
 
-Add a license file if you plan to open-source or redistribute the project.
+如果项目需要开源或对外分发，建议补充 `LICENSE` 文件。
